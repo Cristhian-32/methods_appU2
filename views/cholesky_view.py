@@ -1,5 +1,5 @@
 import tkinter as tk
-from tkinter import messagebox
+from tkinter import messagebox, scrolledtext
 
 class CholeskyView(tk.Frame):
     def __init__(self, master, controller):
@@ -26,9 +26,6 @@ class CholeskyView(tk.Frame):
                   font=("Helvetica", 12), bg="#1F1F1F", fg="white",
                   activebackground="#333333", activeforeground="white", bd=0, padx=15, pady=5).pack(pady=10)
 
-        self.result_label = tk.Label(self, text="", bg="#121212", fg="white", font=("Helvetica", 12))
-        self.result_label.pack(pady=10)
-
         tk.Button(self, text="Atrás", command=self.controller.show_methods,
                   font=("Helvetica", 12, "bold"), bg="#1F1F1F", fg="white",
                   activebackground="#333333", activeforeground="white", bd=0, padx=20, pady=10).pack(pady=10)
@@ -39,7 +36,39 @@ class CholeskyView(tk.Frame):
             vector_input = self.vector_entry.get()
             matrix = [list(map(float, row.split(','))) for row in matrix_input.split(';')]
             vector = list(map(float, vector_input.split(',')))
-            result = self.controller.solve_cholesky(matrix, vector)
-            self.result_label.config(text=f"Resultado: {result}")
+            L, x = self.controller.solve_cholesky(matrix, vector)
+
+            self.show_solution_popup(x)
+            self.show_matrix_L_popup(L)
+
         except Exception as e:
             messagebox.showerror("Error", f"Entrada inválida: {e}")
+
+    def show_solution_popup(self, x):
+        popup = tk.Toplevel(self)
+        popup.title("Solución x")
+        popup.configure(bg="#121212")
+        popup.geometry("300x300")
+
+        text_area = scrolledtext.ScrolledText(popup, bg="#1F1F1F", fg="white", font=("Consolas", 11))
+        text_area.pack(expand=True, fill="both", padx=10, pady=10)
+
+        text_area.insert("end", "Solución x:\n")
+        for i, val in enumerate(x):
+            text_area.insert("end", f"x[{i}] = {val}\n")
+        text_area.config(state="disabled")
+
+    def show_matrix_L_popup(self, L):
+        popup = tk.Toplevel(self)
+        popup.title("Matriz L")
+        popup.configure(bg="#121212")
+        popup.geometry("400x400")
+
+        text_area = scrolledtext.ScrolledText(popup, bg="#1F1F1F", fg="white", font=("Consolas", 10))
+        text_area.pack(expand=True, fill="both", padx=10, pady=10)
+
+        text_area.insert("end", "Matriz L (Triangular inferior):\n")
+        for row in L:
+            text_area.insert("end", f"{row}\n")
+
+        text_area.config(state="disabled")

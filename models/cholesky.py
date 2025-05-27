@@ -34,4 +34,4 @@ def cholesky_decomposition(A, b):
         sum_j = sum(L[j][i] * x[j] for j in range(i + 1, n))
         x[i] = (y[i] - sum_j) / L[i][i]
 
-    return x
+    return L, x 

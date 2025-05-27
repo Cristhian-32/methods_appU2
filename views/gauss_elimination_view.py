@@ -1,5 +1,6 @@
 import tkinter as tk
 from tkinter import messagebox
+import tkinter.scrolledtext as scrolledtext
 
 class GaussView(tk.Frame):
     def __init__(self, master, controller):
@@ -40,6 +41,22 @@ class GaussView(tk.Frame):
             matrix = [list(map(float, row.split(','))) for row in matrix_input.split(';')]
             vector = list(map(float, vector_input.split(',')))
             result = self.controller.solve_gauss(matrix, vector)
-            self.result_label.config(text=f"Resultado: {result}")
+            self.show_solution_popup(result)
         except Exception as e:
             messagebox.showerror("Error", f"Entrada inválida: {e}")
+
+    import tkinter.scrolledtext as scrolledtext  # Asegúrate de tenerlo importado
+
+    def show_solution_popup(self, x):
+        popup = tk.Toplevel(self)
+        popup.title("Solución x")
+        popup.configure(bg="#121212")
+        popup.geometry("300x300")
+
+        text_area = scrolledtext.ScrolledText(popup, bg="#1F1F1F", fg="white", font=("Consolas", 11))
+        text_area.pack(expand=True, fill="both", padx=10, pady=10)
+
+        text_area.insert("end", "Solución x:\n\n")
+        for i, val in enumerate(x):
+            text_area.insert("end", f"x[{i}] = {val:.6f}\n")  # Seis decimales, ajustable
+        text_area.config(state="disabled")

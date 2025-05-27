@@ -1,5 +1,6 @@
 import tkinter as tk
 from tkinter import messagebox
+from tkinter import scrolledtext
 
 class GaussJordanView(tk.Frame):
     def __init__(self, master, controller):
@@ -26,9 +27,6 @@ class GaussJordanView(tk.Frame):
                   font=("Helvetica", 12), bg="#1F1F1F", fg="white",
                   activebackground="#333333", activeforeground="white", bd=0, padx=15, pady=5).pack(pady=10)
 
-        self.result_label = tk.Label(self, text="", bg="#121212", fg="white", font=("Helvetica", 12))
-        self.result_label.pack(pady=10)
-
         tk.Button(self, text="Atrás", command=self.controller.show_methods,
                   font=("Helvetica", 12, "bold"), bg="#1F1F1F", fg="white",
                   activebackground="#333333", activeforeground="white", bd=0, padx=20, pady=10).pack(pady=10)
@@ -40,6 +38,20 @@ class GaussJordanView(tk.Frame):
             matrix = [list(map(float, row.split(','))) for row in matrix_input.split(';')]
             vector = list(map(float, vector_input.split(',')))
             result = self.controller.solve_gauss_jordan(matrix, vector)
-            self.result_label.config(text=f"Resultado: {result}")
+            self.show_solution_popup(result)
         except Exception as e:
             messagebox.showerror("Error", f"Entrada inválida: {e}")
+
+    def show_solution_popup(self, x):
+        popup = tk.Toplevel(self)
+        popup.title("Solución x")
+        popup.configure(bg="#121212")
+        popup.geometry("300x300")
+
+        text_area = scrolledtext.ScrolledText(popup, bg="#1F1F1F", fg="white", font=("Consolas", 11))
+        text_area.pack(expand=True, fill="both", padx=10, pady=10)
+
+        text_area.insert("end", "Solución x:\n\n")
+        for i, val in enumerate(x):
+            text_area.insert("end", f"x[{i}] = {val:.6f}\n")
+        text_area.config(state="disabled")
