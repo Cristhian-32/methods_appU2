@@ -42,7 +42,8 @@ class MethodsView(tk.Frame):
 
         # Contenedor de columnas
         columns_frame = tk.Frame(self, bg="#121212")
-        columns_frame.pack(expand=True, fill="both")
+        columns_frame.pack(anchor="center", pady=10)
+
 
         # Columnas
         self.create_column(columns_frame,

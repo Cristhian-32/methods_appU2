@@ -1,13 +1,19 @@
 import tkinter as tk
 from views.welcome_view import WelcomeView
 from views.methods_view import MethodsView
+from views.gauss_elimination_view import GaussView
+from views.gauss_jordan_view import GaussJordanView
+from views.lu_descomposition_view import LUView
+from models.gauss_elimination import gauss_elimination
+from models.gauss_jordan import gauss_jordan
+from models.lu_descomposition import lu_decomposition
 
 class AppController:
     def __init__(self):
         self.root = tk.Tk()
         self.root.title("Aplicación de Métodos Numéricos")
         self.root.configure(bg="#1e1e1e")
-        self.root.geometry("500x300")
+        self.root.geometry("800x600")
         self.current_view = None
 
     def run(self):
@@ -29,9 +35,29 @@ class AppController:
     #Métodos
 
     #Métodos de Álgebra Lineal Numérica
-    def show_gauss_elimination(self): print("Gauss Elimination")
-    def show_gauss_jordan(self): print("Gauss Jordan")
-    def show_lu_decomposition(self): print("LU")
+
+    #Método de eliminación de Gauss
+    def show_gauss_elimination(self):
+        self.clear_view()
+        self.current_view = GaussView(self.root, self)
+    
+    def solve_gauss(self, matrix, vector):
+        return gauss_elimination(matrix, vector)
+
+    def show_gauss_jordan(self):
+        self.clear_view()
+        self.current_view = GaussJordanView(self.root, self)
+
+    def solve_gauss_jordan(self, matrix, vector):
+        return gauss_jordan(matrix, vector)
+    
+    def show_lu_decomposition(self):
+        self.clear_view()
+        self.current_view = LUView(self.root, self)
+
+    def solve_lu_decomposition(self, matrix, vector):
+        return lu_decomposition(matrix, vector)
+    
     def show_cholesky(self): print("Cholesky")
     def show_jacobi(self): print("Jacobi")
     def show_gauss_seidel(self): print("Gauss-Seidel")
