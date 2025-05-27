@@ -16,15 +16,15 @@ class MethodsView(tk.Frame):
             "Método Iterativo de Gauss-Seidel": controller.show_gauss_seidel,
 
             # Optimización y Regresión
-            "Optimización unidimensional sin restricciones": controller.show_unidimensional_optimization,
-            "Optimización multidimensional sin restricciones": controller.show_multidimensional_optimization,
-            "Optimización con restricciones": controller.show_constrained_optimization,
+            "Optimización unidimensional sin restricciones": controller.show_golden_section,
+            "Optimización multidimensional sin restricciones": controller.show_parabolic_interpolation,
+            "Optimización con restricciones": controller.show_newton_maximum,
             "Recta de regresión lineal de mínimos cuadrados": controller.show_linear_regression,
-            "Regresión lineal múltiple": controller.show_multiple_regression,
+            "Regresión lineal múltiple": controller.show_multiple_linear_regression,
             "Regresión no lineal": controller.show_nonlinear_regression,
 
             # Extras
-            "Botón 1": controller.show_extra1,
+            "Newton Interpolation": controller.show_newton_interpolation,
             "Botón 2": controller.show_extra2,
             "Botón 3": controller.show_extra3,
             "Botón 4": controller.show_extra4,
@@ -72,7 +72,7 @@ class MethodsView(tk.Frame):
 
         self.create_column(columns_frame,
             "Extras",
-            ["Botón 1", "Botón 2", "Botón 3", "Botón 4"]
+            ["Newton Interpolation", "Botón 2", "Botón 3", "Botón 4"]
         ).grid(row=0, column=2, padx=10)
 
         # Botón Atrás
